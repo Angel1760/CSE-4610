@@ -38,7 +38,7 @@ int Filesys::buildfs(){
 for (int i = 0; i < rootsize; i++)
     {
         filename.push_back("XXXXX")
-        firstblock.push_back(0);
+        firstblock().push_back(0);
     }
 //building FAT
 fat.push_back(fatsize +2)
@@ -74,7 +74,7 @@ for (int i = 0; i < fat.size(); i++)
     string buffer2 = ostream2.str();
     vector<string>blocks2 = block(buffer2, getblocksize());
 
-for (int i = 0; i < block2.size(), i++)
+for (int i = 0; i < block2.size(); i++)
     {
         putblock(2+i, block2[i]);
     }

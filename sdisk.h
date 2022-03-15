@@ -13,8 +13,8 @@ using namespace std;
 
 class Sdisk{
 public: 
-/*This constructor incorporates the creation of the disk with the "formatting" of the device.
-*/
+//This constructor incorporates the creation of the disk with the "formatting" of the device.
+
 Sdisk(string diskname, int numberofblocks, int blocksize);
 int getnumberofblocks();
 //block size of bytes 
