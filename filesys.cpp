@@ -38,7 +38,7 @@ int Filesys::buildfs(){
 for (int i = 0; i < rootsize; i++)
     {
         filename.push_back("XXXXX")
-        firstblock().push_back(0);
+        firstblock.push_back(0);
     }
 //building FAT
 fat.push_back(fatsize +2)
