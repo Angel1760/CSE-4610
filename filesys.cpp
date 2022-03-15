@@ -37,12 +37,12 @@ int Filesys::buildfs(){
 //building root
 for (int i = 0; i < rootsize; i++)
     {
-        filename.push_back("XXXXX")
-        firstblock().push_back(0);
+        filename.push_back("XXXXX");
+        firstblock.push_back(0);
     }
-//building FAT
-fat.push_back(fatsize +2)
-fat.push_back(-1)
+    //building FAT
+    fat.push_back(fatsize +2);
+    fat.push_back(-1);
 for (int i = 0; i < getnumberofblocks; i++)
     {
         fat.push_back(-1);
@@ -91,9 +91,10 @@ string tempbuffer;
 for (int i = 0; i < fatsize; i++)
     {
     getblock(2+i, tempbuffer);
-    buffer2+ = tempbuffer;
+    buffer2 += tempbuffer;
     tempbuffer.clear();
     }
+
     istringstream istream1, istream2;
     istream1.str(buffer1);
     istream2.str(buffer2);
