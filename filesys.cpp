@@ -153,6 +153,17 @@ int Filesys::delblock(string file, int blocknumber){
 }
 
 int Filesys::readblock(string file, int blocknumber, string& buffer){
+    if (checkblock(file, blocknumber))
+    {
+        //can put: "putblock" for writeblock
+        getblock(blocknumber, buffer);
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+    
 
 }
 
@@ -161,6 +172,15 @@ int Filesys::writeblock(string file, int blocknumber, string buffer){
 }
 
 int Filesys::nextblock(string file, int blocknumber){
+
+    if (checkblock(file, blocknumber))
+    {
+        return fat[blocknumber];
+    }
+    else
+    {
+        return -1;
+    }
 
 }
 
