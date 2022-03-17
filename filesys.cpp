@@ -116,6 +116,7 @@ for (int i = 0; i < getnumberofblocks(); i++)
     }
     
 }
+
 int Filesys::fsclose(){
 
 }
@@ -129,7 +130,18 @@ int Filesys::rmfile(string file){
 }
 
 int Filesys::getfirstblock(string file){
+//return first block number of file
+//-1 if file is not found
 
+    for (int i = 0; i < rootsize filename.size(); i++)
+    {
+        if(filename[i]==file)
+        {
+            return firstblock[i];
+        }
+    }
+    return -1;
+    
 }
 
 int Filesys::addblock(string file, string block){
