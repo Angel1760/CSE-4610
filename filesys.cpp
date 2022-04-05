@@ -23,7 +23,7 @@ Sdisk(diskname,numberofblocks,blocksize){
             cout << "Error occured";
             return;
         }
-    if(buffer[0]=="#")
+    if(buffer[0] == "#")
         {
             buildfs();
             cout << "Building file system"; 
@@ -46,7 +46,7 @@ for (int i = 0; i < rootsize; i++)
     //building FAT
     fat.push_back(fatsize +2);
     fat.push_back(-1);
-for (int i = 0; i < getnumberofblocks; i++)
+for (int i = 0; i < getnumberofblocks(); i++)
     {
         fat.push_back(-1);
     }
@@ -166,7 +166,6 @@ int Filesys::readblock(string file, int blocknumber, string& buffer){
     {
         return 0;
     }
-    
 
 }
 
@@ -185,6 +184,7 @@ int Filesys::nextblock(string file, int blocknumber){
         return -1;
     }
 
+}
 
 //may not need here, may need elsewhere
 vector<string> Filesys::ls()
@@ -197,8 +197,6 @@ vector<string> Filesys::ls()
            }
       }
   return flist;
-}
-
 }
 
 
