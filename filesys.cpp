@@ -148,7 +148,45 @@ int Filesys::getfirstblock(string file){
 }
 
 int Filesys::addblock(string file, string block){
+     int blockid = getfirstblock(file);
+    if (blockid == -1)
+    {
+        cout << "file does not exist" << endl;
+        return 0;
+    }
+    int allocate = fat[0];
+    if (allocate == 0)
+    {
+        cout << "no space on disk" << endl;
+        return 0;
+    }
 
+    fat[0] = fat[fat[0]]; //allocating the block 
+    fat[allocate] = 0;    
+
+    if (blockid == 0)
+    {
+        for (int i = 0; i < rootsize; i++)
+        {
+            if (filename[i] == file)        //when there are no blocks in the file
+            {
+                firstblock[i] = allocate;
+            }
+            
+        }
+        
+    }
+    else   //these will be for the files that already exist
+    {
+        while (fat[blockid] != 0)
+        {
+            blockid = fat[blockid]; //
+        }
+        fat[blockid] = allocate;
+    }
+    fssynch();      //updating the freelist
+    putblock (allocate, block);
+    return 1;
 }
 
 int Filesys::delblock(string file, int blocknumber){
