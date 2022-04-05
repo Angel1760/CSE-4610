@@ -49,6 +49,6 @@ int Filesys::addblock(string file, string block){
         fat[blockid] = allocate;
     }
     fssynch();      //updating the freelist
-    putblock(allocate, block);
+    putblock (allocate, block);
     return 1;
 }

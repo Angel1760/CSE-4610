@@ -5,6 +5,9 @@
 */
 #include "filesys.h"
 #include "sdisk.h"
+#include "block.cpp"
+#include "shell.h"
+#include "newfile.cpp"
 
 
 Filesys::Filesys(string filename,int numberofblocks, int blocksize):
@@ -181,6 +184,20 @@ int Filesys::nextblock(string file, int blocknumber){
     {
         return -1;
     }
+
+
+//may not need here, may need elsewhere
+vector<string> Filesys::ls()
+{ vector<string> flist;
+  for (int i=0; i<filename.size(); i++)
+      {
+        if (filename[i] != "XXXXX")
+           {
+             flist.push_back(filename[i]);
+           }
+      }
+  return flist;
+}
 
 }
 
