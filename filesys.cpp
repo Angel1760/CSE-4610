@@ -128,6 +128,29 @@ int Filesys::newfile(string file){
 
 }
 
+//not sure if correct; added from newfile.cpp
+int Filesys::newfile(string newname){
+    for (int i = 0; i < rootsize; i++)
+        {
+            if (filename[i]==newname)
+            {
+                cout << "file exists" << endl;
+                return 0;
+            }
+        }
+    for (int i = 0; i < rootsize; i++)
+    {
+        if (filename == "XXXXX")
+        {
+            filename == newname;
+            return 1;
+        }
+        
+    }
+    cout << "no space in Root" << endl;
+    return 0;
+
+}
 int Filesys::rmfile(string file){
 
 }
@@ -224,6 +247,25 @@ int Filesys::nextblock(string file, int blocknumber){
 
 }
 
+//added from newfile.cpp; i think this is where it should be placed
+bool Filesys::checkblock(string file, int block){
+//check if block number is in file
+    int blockid = getfirstblock(file);
+    if(blockid == -1)
+    {
+        return false;
+    }
+    while (blockid !=0)
+    {
+        if(blockid == block)
+        {
+            return true;
+        }
+        blockid = fat[blockid];
+    }
+    
+}
+
 //may not need here, may need elsewhere
 vector<string> Filesys::ls()
 { vector<string> flist;
@@ -237,4 +279,9 @@ vector<string> Filesys::ls()
   return flist;
 }
 
-
+/*
+ *4/5/22
+ * need to work on: delblock, writeblock, rmfile, newfile, fslose, 
+ * weird bug in block file with #include "filesys.h". If removed, gives me bugs everywhere
+ * new files created as of 4/5/22: main_shell, shell.h. 
+*/
