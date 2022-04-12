@@ -3,11 +3,9 @@
  * will create: angel.tar
  * to execute archive: tar -xf angel.tar
 */
-#include "filesys.h"
 #include "sdisk.h"
 #include "block.cpp"
-#include "shell.h"
-#include "newfile.cpp"
+
 
 
 Filesys::Filesys(string filename,int numberofblocks, int blocksize):
@@ -281,7 +279,7 @@ vector<string> Filesys::ls()
 
 /*
  *4/5/22
- * need to work on: delblock, writeblock, rmfile, newfile, fslose, 
+ * need to work on: delblock, writeblock, rmfile, newfile, fsclose, 
  * weird bug in block file with #include "filesys.h". If removed, gives me bugs everywhere
  * new files created as of 4/5/22: main_shell, shell.h. 
 */

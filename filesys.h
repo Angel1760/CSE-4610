@@ -2,8 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
+
 #include "sdisk.h"
-#include "block.cpp"
 
 using namespace std;
 
@@ -32,7 +32,7 @@ int fatsize;            // number of blocks occupied by FAT
 vector<string> filename;   // filenames in ROOT
 vector<int> firstblock; // firstblocks in ROOT
 vector<int> fat;             // FAT
-vector<string> block(strings, int b) //may need to be placed in the public
+vector<string> block(string s, int b) //may need to be placed in the public
 vector<string> ls();    //added 4/5/22; not sure if needs to be here
 int buildfs(); // builds the file system
 int readfs();// reads the file system
