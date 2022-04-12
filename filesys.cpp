@@ -4,9 +4,6 @@
  * to execute archive: tar -xf angel.tar
 */
 #include "sdisk.h"
-#include "block.cpp"
-
-
 
 Filesys::Filesys(string filename,int numberofblocks, int blocksize):
     
@@ -277,6 +274,37 @@ vector<string> Filesys::ls()
   return flist;
 }
 
+vector<string> Filesys::block(string s, int b)
+{
+    //s-buffer, b-blocksize
+    vector<string> blocks;
+    int numberofblocks = 0;
+   
+    if(s.length() % b == 0)
+    {
+        numberofblocks = s.length() / b;
+    }
+    else
+    {
+        numberofblocks = s.length() / b + 1;
+    }
+}
+
+string tempblock;
+for (int i = 0; i < numberofblocks; i++)
+{
+   tempblock = s.substr(b*i, b)
+   blocks.pushback(tempblock);
+}
+
+//add #'s to index the number of blocks
+int lastblock = block.size() - 1;
+
+for (int i = blocks[lastblock].length(); i<b; i++)
+    {
+        blocks[lastblock] += "#";
+    }
+    return blocks;
 /*
  *4/5/22
  * need to work on: delblock, writeblock, rmfile, newfile, fsclose, 

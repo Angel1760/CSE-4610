@@ -23,6 +23,9 @@ int readblock(string file, int blocknumber, string& buffer);
 int writeblock(string file, int blocknumber, string buffer);
 int nextblock(string file, int blocknumber);
 bool checkblock(string file, int block);
+vector<string> block(string s, int b);
+vector<string> ls();    //added 4/5/22; not sure if needs to be here
+
 
 
 
@@ -32,8 +35,6 @@ int fatsize;            // number of blocks occupied by FAT
 vector<string> filename;   // filenames in ROOT
 vector<int> firstblock; // firstblocks in ROOT
 vector<int> fat;             // FAT
-vector<string> block(string s, int b) //may need to be placed in the public
-vector<string> ls();    //added 4/5/22; not sure if needs to be here
 int buildfs(); // builds the file system
 int readfs();// reads the file system
 int fssynch(); // writes the FAT and ROOT to the sdisk

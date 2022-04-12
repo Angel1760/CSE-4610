@@ -13,8 +13,11 @@ int Build_Table(string input_file);
 int Search(string value);
 
 private :
-string flatfile;
-string indexfile;
+
+string flatfile;                 //stores information without any particular order
+string indexfile;                //created for search keys; for faster search
+int numberofrecords;
+FileSys filesystem;
 int IndexSearch(string value);
 
 };
