@@ -5,15 +5,18 @@
 
 #include "sdisk.h"
 
+#pragma once
+#ifndef FILESYS_H
+#define FILESYS_H
+
 using namespace std;
 
-class Filesys{
-
+class Filesys: public Sdisk
+{
 public :
 
 Filesys(string filename,int numberofblocks, int blocksize);
 int fsclose();
-int newfile(string file);
 int newfile(string newname); //added 4/5/22; not sure if correct
 int rmfile(string file);
 int getfirstblock(string file);
@@ -22,6 +25,7 @@ int delblock(string file, int blocknumber);
 int readblock(string file, int blocknumber, string& buffer);
 int writeblock(string file, int blocknumber, string buffer);
 int nextblock(string file, int blocknumber);
+
 bool checkblock(string file, int block);
 vector<string> block(string s, int b);
 vector<string> ls();    //added 4/5/22; not sure if needs to be here
@@ -39,3 +43,4 @@ int buildfs(); // builds the file system
 int readfs();// reads the file system
 int fssynch(); // writes the FAT and ROOT to the sdisk
 };
+#endif

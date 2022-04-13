@@ -13,20 +13,15 @@ using namespace std;
 
 class Sdisk{
 public: 
-//This constructor incorporates the creation of the disk with the "formatting" of the device.
-
-Sdisk(string diskname, int numberofblocks, int blocksize);
+Sdisk(string diskname, int numberofblocks, int blocksize);  //This constructor incorporates the creation of the disk with the "formatting" of the device.
 int getnumberofblocks();
-//block size of bytes 
-int getblocksize();
+int getblocksize(); //block size of bytes 
 /*retrieves block blocknumber from the disk and stores the data in the string buffer. 
 It returns an error code of 1 if successful and 0 otherwise.*/
-int getblock(int blocknumber, string& buffer);
-//writes the string buffer to block blocknumber. It returns an error code of 1 if successful and 0 otherwise.
+int getblock(int blocknumber, string& buffer);  //writes the string buffer to block blocknumber. It returns an error code of 1 if successful and 0 otherwise.
 int putblock(int blocknumber, string buffer);
 
 private:
-
     string diskname;
     int numberofblocks;
     int blocksize;

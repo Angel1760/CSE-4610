@@ -2,20 +2,23 @@
 
 using namespace std;
 
-Shell(string filename, int blocksize, int numberofblocks);
+Shell::Shell(string filename, int blocksize, int numberofblocks):Filesys(filename, numberofblocks, blocksize)
+{
+
+}
 
 // lists all files
 int Shell::dir()
 { 
-    vector<string> flist=ls();
-  for (i=0; i<flist.size(); i++)
+    vector<string> flist = ls();
+  for (int i=0; i < flist.size(); i++)
       {
         cout << flist[i] << endl;
       }
 }
 
 // add a new file using buffer as data
-int Shell::add(string filename,string buffer)
+int Shell::add(string file,string buffer)
 {
     int code = getfirstblock(file);
     if (code >= 0)
@@ -23,7 +26,7 @@ int Shell::add(string filename,string buffer)
         cout << "file exists";
         return 0;
     }
-    code = newfile(filename);
+    code = newfile(file);
 
     if (code == 0)
     {
@@ -31,16 +34,16 @@ int Shell::add(string filename,string buffer)
         return 0;
     }
     
+    //need to check this error with professor; similar to errors on filesys.cpp
     vector<string>blocks = block(buffer, getblocksize());
-    for (int i = 0; i < block.size(); i++)
+    for (int i = 0; i < blocks.size(); i++)
     {
-        code = addblock(filename, blocks[i]);
+        code = addblock(file, blocks[i]);
         if (code == 0)
         {
             cout << "error occurred";
             return 0;
         }
-        
     }
     return 1;
     
@@ -61,20 +64,22 @@ int Shell::del(string file)
     
 }
 
+
 //lists the contents of file; this code is similar to the copy function
 int Shell::type(string file)
 {
-  int block = getfirstblock(file1);
+    
+    int block = getfirstblock(file1);
+    //          readblock?
+    int code = newfile(file2);
+
+/* need to check if this is what the professor wanted
     //checking if file exists! block -1. then there is no file
     if (block == -1)
     {
         cout << "there is no file";
         return 0;
     }
-    
-    //might need to add readblock(file1, file2) here
-    int code = readblock(file1, file2);
-
     //check if file2 already exists or no more room for file (code = 0)
     //double check return statements for this if and if above
     if (code == 0)
@@ -82,11 +87,12 @@ int Shell::type(string file)
         cout << "file2 already exists";
         return 1;
     }
+*/
 
     while (block != 0)
     {
         string buffer;
-        readblock(file1, file2);
+        readblock(file1, block, buffer);
         addblock(file2, buffer);
         block = nextblock(file1, block);
     }
@@ -98,14 +104,15 @@ int Shell::type(string file)
 int Shell::copy(string file1, string file2)
 {
     int block = getfirstblock(file1);
+    int code = newfile(file2);
+    
+/*need to check if this is correct
     //checking if file exists! block -1. then there is no file
     if (block == -1)
     {
         cout << "there is no file";
         return 0;
     }
-    
-    int code = newfile(file2);
     //check if file2 already exists or no more room for file (code = 0)
     //double chech return statements for this if and if above
     if (code == 0)
@@ -113,15 +120,15 @@ int Shell::copy(string file1, string file2)
         cout << "file2 already exists";
         return 1;
     }
+*/
     while (block != 0)
     {
         string buffer;
-        readblock(file1, file2);
+        readblock(file1, block, buffer);
         addblock(file2, buffer);
         block = nextblock(file1, block);
     }
     return 1;
-
 }
 /*
 4/7/22

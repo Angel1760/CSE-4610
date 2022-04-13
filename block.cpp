@@ -1,6 +1,10 @@
 #include <vector>
 #include <string>
 #include "filesys.h"
+#include "sdisk.h"
+
+#ifndef BLOCK
+#define BLOCK
 
 using namespace std;
 
@@ -24,7 +28,6 @@ vector<string> block(string s, int b)
     {
         numberofblocks = s.length() / b + 1;
     }
-}
 
 string tempblock;
 for (int i = 0; i < numberofblocks; i++)
@@ -34,10 +37,13 @@ for (int i = 0; i < numberofblocks; i++)
 }
 
 //add #'s to index the number of blocks
-int lastblock = block.size() - 1;
+int lastblock = blocks.size() - 1;
 
 for (int i = blocks[lastblock].length(); i<b; i++)
     {
         blocks[lastblock] += "#";
     }
     return blocks;
+}
+
+#endif
