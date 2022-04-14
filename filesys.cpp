@@ -126,7 +126,7 @@ for(int i = 0; i < getnumberofblocks(); i++)
         istream2 >> k;
         fat.push_back(k);  
     }
-    
+    return 0;
 }
 
 int Filesys::newfile(string newname){
@@ -152,7 +152,7 @@ int Filesys::newfile(string newname){
 
 }
 int Filesys::rmfile(string file){
-
+    return 0;
 }
 
 int Filesys::getfirstblock(string file){
@@ -306,6 +306,7 @@ bool Filesys::checkblock(string file, int block)
         }
         blockid = fat[blockid];
     }
+    return false;
 }
 
 //may not need here, may need elsewhere
