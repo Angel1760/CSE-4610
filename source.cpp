@@ -1,15 +1,16 @@
+
 #include "sdisk.h"
 #include "filesys.h"
 
 int main() {
 
 //first test run of working sdisk
-    Sdisk disk0 = Sdisk("disk0.txt", 256, 128); //set attributes 
-    return 0;
+  //  Sdisk disk0 = Sdisk("disk0.txt", 256, 128); //set attributes 
+    //return 0;
 
 ///////////////////////////////////////////Project 1 Test/////////////////////////////////////////
 	
-    /*
+   /* 
     Sdisk disk1("test1",16,32);
   	string block1, block2, block3, block4;
   	for (int i=1; i<=32; i++) block1=block1+"1";
@@ -24,7 +25,19 @@ int main() {
 	cout << block4 << endl;
 	*/
 
-///////////////////////////////////////////Project 2 Test/////////////////////////////////////////
+/*
+to compile on linux
+cd proj1
+$c++ -c sdisk.cpp source.cpp
+$c++ -o proj1 sdisk.o source.o
+./proj1
+cat disk0.txt
+*/
+
+// g++ abc.cpp bcd.cpp 
+//./a.out
+
+///////////////////////////////////////////Test delete block/////////////////////////////////////////
 
 	Sdisk disk1("disk1",256,128);
 	Filesys fsys("disk1",256,128);
@@ -48,7 +61,7 @@ int main() {
 		blocknumber=fsys.addblock("file1",blocks[i]);
 	}
 
-	fsys.delblock("file1",fsys.getfirstblock("file1"));
+	//fsys.delblock("file1",fsys.getfirstblock("file1"));
 
 	for (int i=1; i<=2048; i++)
 	{
@@ -62,8 +75,8 @@ int main() {
 		blocknumber=fsys.addblock("file2",blocks[i]);
 	}
 
-	fsys.delblock("file2",blocknumber);
-
+	//fsys.delblock("file2",blocknumber);
+ 
 
 ///////////////////////////////////////////Project 3 Test/////////////////////////////////////////
 
@@ -75,7 +88,6 @@ int main() {
  string s;
  string command = "go";
  string op1,op2;
-
  while (command != "quit")
      {
        command.clear();
@@ -128,9 +140,16 @@ int main() {
            }
        
       }
-
  return 0;
-
 */
+
+
+/* for the output make file
+to run output file, go to directory and type "make output" and it should run all the files.
+then ./output to compile. same goes for any proj if testing each part
+if you make any changes, delete "disk1" and ./proj#
+after run, run "make clean"
+*/
+
 
 }

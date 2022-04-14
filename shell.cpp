@@ -15,6 +15,7 @@ int Shell::dir()
       {
         cout << flist[i] << endl;
       }
+      return 0;
 }
 
 // add a new file using buffer as data
@@ -61,12 +62,12 @@ int Shell::del(string file)
 
     }
     rmfile(file);
-    
+    return 0;
 }
 
 
 //lists the contents of file; this code is similar to the copy function
-int Shell::type(string file)
+int Shell::type(string file1, string file2)
 {
     
     int block = getfirstblock(file1);
@@ -100,6 +101,7 @@ int Shell::type(string file)
 
 }
 
+
 //copies file1 to file2
 int Shell::copy(string file1, string file2)
 {
@@ -130,6 +132,7 @@ int Shell::copy(string file1, string file2)
     }
     return 1;
 }
+
 /*
 4/7/22
 need to:

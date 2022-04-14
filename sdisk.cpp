@@ -4,25 +4,18 @@
 Sdisk::Sdisk(string diskname, int numberofblocks, int blocksize)
 {
 	/* code below is not working 4/5/22
-
 	fstream f;
 	ifstream file1;
-
 	this->diskname = diskname;
 	this->numberofblocks = numberofblocks;
 	this->blocksize = blocksize;
-
 	//might break the project later on for part 3, 4
-
-
 	f.open("diskname", ios::in | ios::out);
 	if (!f)
 	{
 		cout << "Error opening file" << endl;
 		exit(0);
 	}
-
-
 	//looking for a c_string
 	file1.open(diskname.c_str());
 	bool diskStatus = file1.good(); file1.close();
@@ -36,7 +29,6 @@ Sdisk::Sdisk(string diskname, int numberofblocks, int blocksize)
 		{
 			file2.put('#');
 		}
-
 		file2.close();
 	}
 		//create diskname;
@@ -99,7 +91,6 @@ int Sdisk::getblock(int blocknumber, string& buffer)
 	fstream iofile;
 	iofile.open(diskname.c_str(), ios::in | ios::out);
 	buffer.clear();
-
 	if(blocknumber >= 0 && blocknumber < blocksize * numberofblocks)
 	{
 		
@@ -111,13 +102,11 @@ int Sdisk::getblock(int blocknumber, string& buffer)
 		
 		char c;
 		iofile.seekg(blocknumber * blocksize);
-
 		for (int i = 0; i < blocksize; i++)
 		{
 			iofile.get(c);
 			buffer.push_back(c); 
 		}
-
 		cout << "Successfully accessed the file" << endl;
 		return 1;
 	}
@@ -161,16 +150,13 @@ int Sdisk::putblock(int blocknumber, string buffer)
 	fstream iofile;
 	iofile.open(diskname.c_str(), ios::in | ios::out); //binary final part of project
 	buffer.clear();
-
 	if(blocknumber >= 0 && blocknumber < blocksize * numberofblocks)
 	{
 		iofile.seekp(blocknumber * blocksize);
-
 		for (int i = 0; i < blocksize; i++)
 		{
 			iofile.put(buffer[i]);
 		}
-
 		cout << "Successfully accessed the file" << endl;
 		return 1;
 	}
