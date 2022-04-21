@@ -3,6 +3,9 @@
  * will create: angel.tar
  * to execute archive: tar -xf angel.tar
 */
+
+//to fix execution issue, uncommment the vector<string> blocks 
+
 #include "sdisk.h"
 #include "filesys.h"
 #include "block.h"
@@ -73,7 +76,7 @@ for (int i = fatsize +2; i < getnumberofblocks(); i++)
     return fssynch();
 }
 
-
+//to fix fssynch issue, go to video 8
 int Filesys::fssynch()
 {
 
@@ -86,10 +89,10 @@ for (int i = 0; i < rootsize; i++)
         ostream << filename[1] << firstblock[1] << " ";
     }
 
-    string buffer1 = ostream.str();
+    string buffer = ostream.str();
 
-    vector<string>blocks1 = block(buffer1, getblocksize());
-    putblock(1, blocks1[0]);
+    vector<string>blocks = block(buffer, getblocksize());
+    putblock(1, blocks[0]);
    
 ostringstream ostream2;
 for (int i = 0; i < fat.size(); i++)
