@@ -5,6 +5,7 @@
 */
 #include "sdisk.h"
 #include "filesys.h"
+#include "block.h"
 
 #include <sstream>
 #include <cstdlib>
@@ -44,12 +45,19 @@ int Filesys::fsclose()
 
 int Filesys::buildfs()
 {
+//from the video 7, 30 min in 
+ostringstream ostream;
+
 //building root
 for (int i = 0; i < rootsize; i++)
     {
         filename.push_back("XXXXX");
         firstblock.push_back(0);
+        ostream << "XXXX" << " " << 0 << ""; //video add
     }
+    string buffer = ostream.str();
+
+
     //building FAT
     fat.push_back(fatsize +2);
     fat.push_back(-1);
@@ -65,8 +73,12 @@ for (int i = fatsize +2; i < getnumberofblocks(); i++)
     return fssynch();
 }
 
+
 int Filesys::fssynch()
 {
+
+vector<string> block(string buffer, int b);
+
 ostringstream ostream;
 
 for (int i = 0; i < rootsize; i++)
@@ -322,6 +334,7 @@ vector<string> Filesys::ls()
   return flist;
 }
 
+/*
 vector<string> Filesys::block(string s, int b)
 {
     //s-buffer, b-blocksize
@@ -336,8 +349,6 @@ vector<string> Filesys::block(string s, int b)
     {
         numberofblocks = s.length() / b + 1;
     }
-
-
     string tempblock;
 
     for (int i = 0; i < numberofblocks; i++)
@@ -354,3 +365,4 @@ vector<string> Filesys::block(string s, int b)
     }
     return blocks;
 }
+*/
