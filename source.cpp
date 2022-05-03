@@ -38,7 +38,7 @@ int main() {
 ///////////////////////////////////////////Project 2 main/////////////////////////////////////////
 
 
-	Sdisk disk1("disk1",256,128);
+	//Sdisk disk1("disk1",256,128);
 	Filesys fsys("disk1",256,128);
 	fsys.newfile("file1");
 	fsys.newfile("file2");

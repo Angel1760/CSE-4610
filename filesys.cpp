@@ -57,10 +57,12 @@ for (int i = 0; i < rootsize; i++)
     {
         filename.push_back("XXXXX");
         firstblock.push_back(0);
-        ostream << "XXXX" << " " << 0 << ""; //video add
+        ostream << "XXXXX" << " " << 0 << ""; //video add
     }
     string buffer = ostream.str();
 
+    vector<string>blocks = block(buffer, getblocksize());
+    putblock(1, blocks[0]);
 
     //building FAT
     fat.push_back(fatsize +2);
@@ -76,16 +78,8 @@ for (int i = fatsize +2; i < getnumberofblocks(); i++)
     fat[fat.size()-1] = 0;
 
 
-//added from fssynch 
-for (int i = 0; i < rootsize; i++)
-    {
-        ostream << filename[1] << " " << firstblock[1] << " ";
-    }
-
     //string buffer = ostream.str();
 
-    vector<string>blocks = block(buffer, getblocksize());
-    putblock(1, blocks[0]);
 
 ostringstream ostream2;
 for (int i = 0; i < fat.size(); i++)
@@ -169,7 +163,7 @@ for(int i = 0; i < getnumberofblocks(); i++)
         istream2 >> k;
         fat.push_back(k);  
     }
-    return 0;
+    return 1;
 }
 
 int Filesys::newfile(string newname){
@@ -187,6 +181,7 @@ int Filesys::newfile(string newname){
         {
             filename[i] == newname;
             firstblock[i] == 0;
+            fssynch();
             return 1;
         }
     }
@@ -202,9 +197,9 @@ int Filesys::getfirstblock(string file){
 //return first block number of file
 //-1 if file is not found
 
-    for (int i = 0; i < filename.size(); i++)
+    for (int i = 0; i < rootsize; i++)
     {
-        if(filename[i]==file)
+        if(file==filename[i])
         {
             return firstblock[i];
         }
@@ -216,6 +211,7 @@ int Filesys::addblock(string file, string block){
     int blockid = getfirstblock(file);
     if (blockid == -1)
     {
+
         cout << "file does not exist" << endl;
         return 0;
     }
@@ -223,7 +219,7 @@ int Filesys::addblock(string file, string block){
     if (allocate == 0)
     {
         cout << "no space on disk" << endl;
-        return 0;
+        return -1;
     }
 
     fat[0] = fat[fat[0]]; //allocating the block 
@@ -249,9 +245,9 @@ int Filesys::addblock(string file, string block){
         }
         fat[blockid] = allocate;
     }
-    fssynch();      //updating the freelist
     putblock (allocate, block);
-    return 1;
+    fssynch();      //updating the freelist
+    return allocate;
 }
 
 int Filesys::delblock(string file, int blocknumber)
