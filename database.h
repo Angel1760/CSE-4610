@@ -1,4 +1,5 @@
 #include "filesys.h"
+#include "table.h"
 
 using namespace std;
 
@@ -17,7 +18,7 @@ private :
 string flatfile;                 //stores information without any particular order
 string indexfile;                //created for search keys; for faster search
 int numberofrecords;
-FileSys filesystem;
+Filesys filesystem;
 int IndexSearch(string value);
 
 };

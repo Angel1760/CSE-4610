@@ -1,5 +1,3 @@
-//to compile: c++ -c sdisk.cpp main.cpp
-//c++ -o project1 main.o
 #include <iostream>
 #include <fstream>
 #include <vector>

@@ -1,49 +1,56 @@
-#include <vector>
 #include <string>
-#include "filesys.h"
-#include "sdisk.h"
+#include <vector>
 
-#ifndef BLOCK
-#define BLOCK
+#include "block.h"
+#include "filesys.h"
+
 
 using namespace std;
 
-/*
-string class 
-    s. c_str() //converts string to c string
-    s.length() // size of string
-    s.substr(k,n) //k=position, n=length
-*/
-vector<string> block(string s, int b)
+vector<string> block(string buffer, int b)
 {
-    //s-buffer, b-blocksize
-    vector<string> blocks;
-    int numberofblocks = 0;
-   
-    if(s.length() % b == 0)
-    {
-        numberofblocks = s.length() / b;
-    }
-    else
-    {
-        numberofblocks = s.length() / b + 1;
-    }
+// blocks the buffer into a list of blocks of size b
+
+vector<string> blocks;
+int numberofblocks=0;
+
+if (buffer.length() % b == 0) 
+   { 
+     numberofblocks= buffer.length()/b;
+   }
+else 
+   {
+      numberofblocks= buffer.length()/b +1;
+   }
 
 string tempblock;
-for (int i = 0; i < numberofblocks; i++)
-{
-   tempblock = s.substr(b*i, b)
-   blocks.pushback(tempblock);
-}
-
-//add #'s to index the number of blocks
-int lastblock = blocks.size() - 1;
-
-for (int i = blocks[lastblock].length(); i<b; i++)
-    {
-        blocks[lastblock] += "#";
+for (int i=0; i<numberofblocks; i++)
+    { 
+      tempblock=buffer.substr(b*i,b);
+      blocks.push_back(tempblock);
     }
-    return blocks;
-}
 
-#endif
+int lastblock=blocks.size()-1;
+
+for (int i=blocks[lastblock].length(); i<b; i++)
+    { 
+      blocks[lastblock]+="#";
+    }
+
+  return blocks;
+}
+/*
+stringstream ostream;
+
+for (int i = 0; i < rootsize; i++)
+    {
+        ostream << filename[1] << " " << firstblock[1] << " ";
+    }
+
+    string buffer = ostream.str();
+
+    vector<string>blocks = block(buffer, getblocksize());
+    putblock(1, blocks[0]);
+}
+*/
+

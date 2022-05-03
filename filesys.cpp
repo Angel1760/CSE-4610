@@ -9,6 +9,7 @@
 #include "sdisk.h"
 #include "filesys.h"
 #include "block.h"
+//#include "block.cpp"
 
 #include <sstream>
 #include <cstdlib>
@@ -73,6 +74,32 @@ for (int i = fatsize +2; i < getnumberofblocks(); i++)
         fat.push_back(i + 1);
     }
     fat[fat.size()-1] = 0;
+
+
+//added from fssynch 
+for (int i = 0; i < rootsize; i++)
+    {
+        ostream << filename[1] << " " << firstblock[1] << " ";
+    }
+
+    //string buffer = ostream.str();
+
+    vector<string>blocks = block(buffer, getblocksize());
+    putblock(1, blocks[0]);
+
+ostringstream ostream2;
+for (int i = 0; i < fat.size(); i++)
+    {
+        ostream2 << fat[i] << " ";
+    }
+
+string buffer2 = ostream2.str();
+vector<string>blocks2 = block(buffer2, getblocksize());
+for (int i = 0; i < blocks2.size(); i++)
+    {
+        putblock(2+i, blocks2[i]);
+    }
+
     return fssynch();
 }
 
@@ -86,19 +113,20 @@ ostringstream ostream;
 
 for (int i = 0; i < rootsize; i++)
     {
-        ostream << filename[1] << firstblock[1] << " ";
+        ostream << filename[1] << " " << firstblock[1] << " ";
     }
 
     string buffer = ostream.str();
 
     vector<string>blocks = block(buffer, getblocksize());
     putblock(1, blocks[0]);
-   
+
 ostringstream ostream2;
 for (int i = 0; i < fat.size(); i++)
     {
         ostream2 << fat[i] << " ";
     }
+
 string buffer2 = ostream2.str();
 vector<string>blocks2 = block(buffer2, getblocksize());
 for (int i = 0; i < blocks2.size(); i++)
@@ -337,35 +365,3 @@ vector<string> Filesys::ls()
   return flist;
 }
 
-/*
-vector<string> Filesys::block(string s, int b)
-{
-    //s-buffer, b-blocksize
-    vector<string> blocks;
-    int numberofblocks = 0;
-   
-    if(s.length() % b == 0)
-    {
-        numberofblocks = s.length() / b;
-    }
-    else
-    {
-        numberofblocks = s.length() / b + 1;
-    }
-    string tempblock;
-
-    for (int i = 0; i < numberofblocks; i++)
-    {
-    tempblock = s.substr(b*i, b);
-    blocks.push_back(tempblock);
-    }
-
-    //add #'s to index the number of blocks
-    int lastblock = blocks.size() - 1;
-    for (int i = blocks[lastblock].length(); i<b; i++)
-    {
-        blocks[lastblock] += "#";
-    }
-    return blocks;
-}
-*/

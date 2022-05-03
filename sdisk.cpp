@@ -4,6 +4,7 @@
 Sdisk::Sdisk(string diskname, int numberofblocks, int blocksize)
 {
 	/* code below is not working 4/5/22
+	
 	fstream f;
 	ifstream file1;
 	this->diskname = diskname;
@@ -34,6 +35,7 @@ Sdisk::Sdisk(string diskname, int numberofblocks, int blocksize)
 		//create diskname;
 	}
 	*/
+
 
 	this->diskname = diskname;
 	this->numberofblocks = numberofblocks;

@@ -4,6 +4,7 @@
 #include <string>
 
 #include "sdisk.h"
+#include "block.h"
 
 #pragma once
 #ifndef FILESYS_H
@@ -27,7 +28,8 @@ int writeblock(string file, int blocknumber, string buffer);
 int nextblock(string file, int blocknumber);
 
 bool checkblock(string file, int block);
-vector<string> block(string s, int b);
+
+//vector<string> block(string buffer, int b); //shouldnt be here but makes source.cpp work
 vector<string> ls();    //added 4/5/22; not sure if needs to be here
 
 
