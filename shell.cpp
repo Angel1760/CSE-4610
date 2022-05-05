@@ -71,32 +71,20 @@ int Shell::del(string file)
 
 //lists the contents of file; this code is similar to the copy function
 //seems to be working fine
-int Shell::type(string file1, string file2)
+int Shell::type(string file)
 {
-    
-    int block = getfirstblock(file1);
+   int block = getfirstblock(file);
     string buffer;
-    int code = newfile(file2);
 
     while(block > 0){
       string t;
-      int error = readblock(file1, block, t);
+      int error = readblock(file, block, t);
       buffer += t;
-      block = nextblock(file1, block);
+      block = nextblock(file, block);
     }
     cout << buffer << endl;
     cout << buffer.length() << endl;
-
-
-    while (block != 0)
-    {
-        string buffer;
-        readblock(file1, block, buffer);
-        addblock(file2, buffer);
-        block = nextblock(file1, block);
-    }
     return 1;
-
 }
 
 
@@ -107,7 +95,7 @@ int Shell::copy(string file1, string file2)
     int block = getfirstblock(file1);
     int code = newfile(file2);
     string buffer;
-
+*/
 /*need to check if this is correct
     //checking if file exists! block -1. then there is no file
     if (block == -1)
@@ -123,6 +111,8 @@ int Shell::copy(string file1, string file2)
         return 1;
     }
 */
+
+
     int block = getfirstblock(file1);
     int error = newfile(file2);
     string buffer;

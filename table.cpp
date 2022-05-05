@@ -5,7 +5,7 @@
 #include <cstdlib>
 using namespace std;
 
-Table::Table(string diskname, int numberofblocks, int blocksize, string flatfile, string indexfile):Filesys(diskname, numberofblocks, blocksize)
+Table::Table(string diskname, int numberofblocks, int blocksize, string flatfile, string indexfile): Filesys(diskname, numberofblocks, blocksize)
 {
     this->flatfile = flatfile;
     this->indexfile = indexfile;
@@ -48,46 +48,40 @@ int Table::build_table(string input_file)
 
 int Table::indexSearch(string value)
 {
+      istringstream instream;
+  int b = getfirstblock(indexfile);
+  while(b != 0){
     string buffer;
-    int blockid = getfirstblock(indexfile);
-    while (blockid != 0)
-    {
-        string b;
-        readblock(indexfile, blockid,b);
-        buffer += b;
-        blockid = nextblock(indexfile, blockid);
-    }
+    readblock(indexfile, b, buffer);
 
-    istringstream istream;
-    istream.str(buffer);
-    string k,b;
-    istream >> k >> b;
-    while (k != "XXXXX")
-    {
-        if(k == value)
-        {
-            return b;
-        }
-        istream >> k >> b;
+    string key;
+    int block;
+
+    instream.str(buffer);
+
+    for(int i = 1; i <= 4; i++){
+      instream >> key >> block;
+      if(value == key){
+        return block;
+      }
     }
-    return 0;
-    
+    b = nextblock(indexfile, b);
+  }
+  return 1;
 }
 
 int Table::search(string value)
 {
-    int ecode = indexSearch(value);
-    if (ecode = 0)                  //record is not found
-    {
-        cout << "record not found" << endl;
-        return 0;
-    }
-    else                            //if the record is found 
-    {
-        string buffer;
-        ecode = readblock(flatfile, ecode, buffer);
-        cout << buffer << endl;
-        return 1;
-    }
+   int b = indexSearch(value);
+  if(b <= 0){
+  	cout << "Record doesnt exist" << endl;
+    return 0;
+  }
+  else{
+  	string buffer;
+  	readblock(flatfile, b, buffer);
+  	cout << buffer << endl;
+  }
+  return 1;
     
 }
