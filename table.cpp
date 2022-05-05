@@ -1,5 +1,6 @@
 #include "table.h"
 #include "filesys.h"
+#include "block.h"
 #include <sstream>
 #include <cstdlib>
 using namespace std;
@@ -14,12 +15,12 @@ int Table::build_table(string input_file)
 {
     int code = newfile(indexfile);
     code = newfile(flatfile);
+
     ostringstream ostream; //create indexfile
     ifstream infile;
     infile.open(input_file.c_str());
-
     string inputline; 
-    setline(infile, inputline);
+    getline(infile, inputline);
 
     while(infile.good())
     {
@@ -27,8 +28,6 @@ int Table::build_table(string input_file)
         string rest = inputline.substr(5);
 
         vector<string> blocks = block(inputline, getblocksize());
-
-        //could be int or string 
         int blockid = addblock(flatfile, blocks[0]);
 
         ostream << key << " " << blockid << " ";
@@ -36,14 +35,11 @@ int Table::build_table(string input_file)
     }
 
     ostream << "XXXXX" << " " << 0 << " ";
-
     string buffer = ostream.str();
-   
     vector<string> iblocks = block(buffer, getblocksize());
 
     for(int i = 0; i < iblocks.size(); i++)
     {
-        //could be blocks or iblocks
         addblock(indexfile, iblocks[i]);
     }
 
@@ -83,14 +79,14 @@ int Table::search(string value)
     int ecode = indexSearch(value);
     if (ecode = 0)                  //record is not found
     {
-        cout << "record not found";
+        cout << "record not found" << endl;
         return 0;
     }
     else                            //if the record is found 
     {
         string buffer;
         ecode = readblock(flatfile, ecode, buffer);
-        cout << buffer;
+        cout << buffer << endl;
         return 1;
     }
     

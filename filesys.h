@@ -18,7 +18,7 @@ public :
 
 Filesys(string filename,int numberofblocks, int blocksize);
 int fsclose();
-int newfile(string newname); //added 4/5/22; not sure if correct
+int newfile(string file); //added 4/5/22; not sure if correct
 int rmfile(string file);
 int getfirstblock(string file);
 int addblock(string file, string block);

@@ -37,6 +37,7 @@ int main() {
 
 ///////////////////////////////////////////Project 2 main/////////////////////////////////////////
 
+/*
 
 	//Sdisk disk1("disk1",256,128);
 	Filesys fsys("disk1",256,128);
@@ -60,7 +61,7 @@ int main() {
 		blocknumber=fsys.addblock("file1",blocks[i]);
 	}
 
-	//fsys.delblock("file1",fsys.getfirstblock("file1"));
+	fsys.delblock("file1",fsys.getfirstblock("file1"));
 
 	for (int i=1; i<=2048; i++)
 	{
@@ -74,16 +75,21 @@ int main() {
 		blocknumber=fsys.addblock("file2",blocks[i]);
 	}
 
-	//fsys.delblock("file2",blocknumber);
+	fsys.delblock("file2",blocknumber);
  
-
+*/
 ///////////////////////////////////////////Project 3 & 4 Test/////////////////////////////////////////
+
 
  //This main program inputs commands to the shell.
  //It inputs commands as : command op1 op2
  //You should modify it to work for your implementation.
  
- /*
+ Sdisk sdisk= Sdisk("sdisk.txt",256,128);
+ Filesys fsys= Filesys("sdisk.txt",256,128);
+ Shell shell= Shell("sdisk.txt",256,128);
+ Table table= Table("sdisk.txt",256,128);
+ table.build_table("data.txt");
  
  string s;
  string command = "go";
@@ -142,7 +148,7 @@ int main() {
       }
  return 0;
 
-*/
+
 
 /* for the output make file
 to run output file, go to directory and type "make output" and it should run all the files.

@@ -7,7 +7,7 @@
 #include <cstdlib>
 using namespace std;
 
-class Table : public Filesys
+class Table: public Filesys
 {
     public :
     Table(string diskname, int numberofblocks, int blocksize, string flatfile, string indexfile);

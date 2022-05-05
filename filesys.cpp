@@ -18,7 +18,7 @@ Filesys::Filesys(string diskname, int numberofblocks, int blocksize) : Sdisk(dis
   int code = getblock(0, buffer);
   if(code == 0)
   {
-    cout << "Eroor occurs :,(" << endl;
+    cout << "Error occurs :,(" << endl;
     return;
   }
 
