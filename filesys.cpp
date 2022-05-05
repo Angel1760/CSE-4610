@@ -1,363 +1,360 @@
+#include "filesys.h"
+#include "block.h"
+#include "sdisk.h"
+
+#include <iostream>
+#include <sstream>
+using namespace std;
+
 //stub for filesys
 /* to archive the project: tar -cf angel.tar project
  * will create: angel.tar
  * to execute archive: tar -xf angel.tar
 */
 
-//to fix execution issue, uncommment the vector<string> blocks 
-
-#include "sdisk.h"
-#include "filesys.h"
-#include "block.h"
-//#include "block.cpp"
-
-#include <sstream>
-#include <cstdlib>
-
-using namespace std;
-
-Filesys::Filesys(string filename,int numberofblocks, int blocksize):Sdisk(filename,numberofblocks,blocksize)
+Filesys::Filesys(string diskname, int numberofblocks, int blocksize) : Sdisk(diskname, numberofblocks, blocksize)
 {
-    rootsize = getblocksize() / 12;
-    fatsize = (getnumberofblocks() * 6) / getblocksize() + 1;
+  string buffer;
+  int code = getblock(0, buffer);
+  if(code == 0)
+  {
+    cout << "Eroor occurs :,(" << endl;
+    return;
+  }
 
-    string buffer;
-    int code = getblock(1, buffer);
-    if(code == 0)
-    {
-        cout << "error occures" << endl;
-        return;
-    }
+  rootsize = getblocksize()/12;
+  fatsize = ((getnumberofblocks()*6)/getblocksize())+1;
 
-    if(buffer[0] == '#')
-    {
-        buildfs();
-        cout << "Building file system" << endl;
-        return;
-    }
-    else
-    {
-        readfs();
-        return;
-    }
-}
+  code = getblock(1, buffer);
+  if(buffer[0] == '#')      // No File System exists
+  {
+    buildfs();
+  }
+  else
+  {
+    readfs();              // File System exists
 
-int Filesys::fsclose()
-{
-    return 1;
+  }
+  fssynch();
 }
 
 int Filesys::buildfs()
 {
-//from the video 7, 30 min in 
-ostringstream ostream;
+  // Write ROOT to Sdisk in block 1
+  ostringstream ostream;
+  for(int i = 0; i < rootsize; i++)
+  {
+      filename.push_back("XXXXX");
+      firstblock.push_back(0);
+      ostream << "XXXXX" << " " << 0 << " ";
+  }
 
-//building root
-for (int i = 0; i < rootsize; i++)
-    {
-        filename.push_back("XXXXX");
-        firstblock.push_back(0);
-        ostream << "XXXXX" << " " << 0 << ""; //video add
-    }
-    string buffer = ostream.str();
+  string buffer = ostream.str();
+  vector<string> blocks = block(buffer, getblocksize());
+  putblock(1, blocks[0]);
 
-    vector<string>blocks = block(buffer, getblocksize());
-    putblock(1, blocks[0]);
-
-    //building FAT
-    fat.push_back(fatsize +2);
+  // Write FAT to Sdisk in block 2
+  ostringstream ostream2;
+  fat.push_back(fatsize + 2);
+  fat.push_back(1);
+  for(int i = 0; i < fatsize; i++){
     fat.push_back(-1);
-for (int i = 0; i < fatsize; i++)
-    {
-        fat.push_back(-1);
-    }
-for (int i = fatsize +2; i < getnumberofblocks(); i++)
-    {
-        fat.push_back(i + 1);
-    }
-    fat[fat.size()-1] = 0;
+  }
 
+  for(int i = fatsize + 2; i < getnumberofblocks(); i++)
+  {
+      fat.push_back(i + 1);
+  }
 
-    //string buffer = ostream.str();
+  fat[fat.size() - 1] = 0;
+  for(int i = 0; i < fat.size(); i++)
+  {
+      ostream2 << fat[i] << " ";
+  }
 
-
-ostringstream ostream2;
-for (int i = 0; i < fat.size(); i++)
-    {
-        ostream2 << fat[i] << " ";
-    }
-
-string buffer2 = ostream2.str();
-vector<string>blocks2 = block(buffer2, getblocksize());
-for (int i = 0; i < blocks2.size(); i++)
-    {
-        putblock(2+i, blocks2[i]);
-    }
-
-    return fssynch();
+  string buffer2 = ostream2.str();
+  vector<string> blocks2 = block(buffer2, getblocksize());
+  for(int i = 0; i < blocks2.size(); i++)
+  {
+      putblock(2 + i, blocks2[i]);
+  }
+  return 0;
 }
 
-//to fix fssynch issue, go to video 8
+int Filesys::readfs()
+{
+  // Reading into the ROOT
+  istringstream istream;
+  string buffer;
+  getblock(1, buffer);
+
+  istream.str(buffer);
+  for(int i = 0; i < rootsize; i++)
+  {
+      string s;
+      int t;
+      istream >> s;
+      istream >> t;
+      filename.push_back(s);
+      firstblock.push_back(t);
+  }
+
+  // Reading into the FAT
+  istringstream istream2;
+  string buffer2;
+  for(int i = 0; i < fatsize; i++)
+  {
+      string b;
+      getblock(i + 2, b);
+      buffer2 += b;
+  }
+  istream2.str(buffer2);
+  for(int i = 0; i < getnumberofblocks(); i++)
+  {
+      int t;
+      istream2 >> t;
+      fat.push_back(t);
+  }
+  return 0;
+}
+
 int Filesys::fssynch()
 {
+  // Writing the ROOT and FAT into the disk
+  ostringstream ostream;
+  for(int i = 0; i < rootsize; i++)
+  {
+    ostream << filename[i] << " " << firstblock[i] << " ";
+  }
+  
+  string buffer = ostream.str();
+  vector<string> blocks = block(buffer, getblocksize());
+  putblock(1, blocks[0]);
 
-vector<string> block(string buffer, int b);
-
-ostringstream ostream;
-
-for (int i = 0; i < rootsize; i++)
-    {
-        ostream << filename[1] << " " << firstblock[1] << " ";
-    }
-
-    string buffer = ostream.str();
-
-    vector<string>blocks = block(buffer, getblocksize());
-    putblock(1, blocks[0]);
-
-ostringstream ostream2;
-for (int i = 0; i < fat.size(); i++)
-    {
-        ostream2 << fat[i] << " ";
-    }
-
-string buffer2 = ostream2.str();
-vector<string>blocks2 = block(buffer2, getblocksize());
-for (int i = 0; i < blocks2.size(); i++)
-    {
-        putblock(2+i, blocks2[i]);
-    }
-    return 1;
-
+  ostringstream ostream2;
+  for(int i = 0; i < fat.size(); i++)
+  {
+    ostream2 << fat[i] << " ";
+  }
+  
+  string buffer2 = ostream2.str();
+  vector<string> blocks2 = block(buffer2, getblocksize());
+  for(int i = 0; i < blocks2.size(); i++)
+  {
+    putblock(2 + i, blocks2[i]);
+  }
+  return 0;
 }
 
-int Filesys::readfs(){
-
-string buffer1, buffer2;
-getblock(1, buffer1);
-string tempbuffer;
-
-for (int i = 0; i < fatsize; i++)
-    {
-    getblock(2+i, tempbuffer);
-    buffer2 += tempbuffer;
-    tempbuffer.clear();
-    }
-
-    istringstream istream1, istream2;
-    istream1.str(buffer1);
-    istream2.str(buffer2);
-
-for (int i = 0; i < rootsize; i++)
-    {
-        string f;
-        int n;
-        istream1 >> f >> n;
-        filename.push_back(f);
-        firstblock.push_back(n);
-    }
-    
-    int k;
-for(int i = 0; i < getnumberofblocks(); i++)
-    {
-        istream2 >> k;
-        fat.push_back(k);  
-    }
-    return 1;
+int Filesys::fsclose()
+{
+  fssynch();
+  return 0;
 }
 
-int Filesys::newfile(string newname){
-    for (int i = 0; i < rootsize; i++)
-        {
-            if (filename[i] == newname)
-            {
-                cout << "file exists" << endl;
-                return 0;
-            }
-        }
-    for (int i = 0; i < rootsize; i++)
+int Filesys::newfile(string file)
+{
+  for(int i = 0; i < filename.size(); i++){
+    if(filename[i] == file)
     {
-        if (filename[i] == "XXXXX")
-        {
-            filename[i] == newname;
-            firstblock[i] == 0;
-            fssynch();
-            return 1;
-        }
+      cout << "File " << file << " exists" << endl;
+      return 0;
     }
-    cout << "no space in Root" << endl;
+  }
+
+  for(int i = 0; i < filename.size(); i++)
+  {
+    if(filename[i] == "XXXXX")
+    {
+      cout << "Creating file: " << file << endl;
+      filename[i] = file;
+      firstblock[i] = 0;
+      fssynch();
+      return 1;
+    }
+  }
+  cout << "No space root in ROOT" << endl;
+  return 0;
+}
+
+int Filesys::rmfile(string file)
+{
+  for(int i = 0; i < filename.size(); i++)
+  {
+    if(filename[i] == file && firstblock[i] == 0)
+    {
+      filename[i] = "XXXXX";
+      firstblock[i] = 0;
+      fssynch();
+      return 1;
+    }
+  }
+  return 1;
+}
+
+int Filesys::getfirstblock(string file)
+{
+  // returns firstblock of file or
+  // returns 0 if file is empty or doesnt exist
+  for(int i = 0; i < filename.size(); i++)
+  {
+    if(filename[i] == file)
+    {
+      cout << "returning first block." << endl;
+      return firstblock[i];
+    }
+  }
+  cout << "No such file." << endl;  //getfirstblock file doesnt exist
+  return -1;
+}
+
+int Filesys::addblock(string file, string block)
+{
+  // return allocated block number
+  int first = getfirstblock(file);
+  if(first == -1)
+  {
+    cout << "No such file." << endl;     //addblock file doesnt exist
     return 0;
+  }
 
-}
-int Filesys::rmfile(string file){
+  int allocate = fat[0];
+  if(allocate == 0)
+  {
+    cout << "no space in disk" << endl;
     return 0;
-}
+  }
 
-int Filesys::getfirstblock(string file){
-//return first block number of file
-//-1 if file is not found
 
-    for (int i = 0; i < rootsize; i++)
+
+  fat[0] = fat[fat[0]];
+  fat[allocate] = 0;
+
+  if(first == 0)
+  {
+    for(int i = 0; i < rootsize; i++)
     {
-        if(file==filename[i])
-        {
-            return firstblock[i];
-        }
+      if(filename[i] == file)
+      {
+        firstblock[i] = allocate;
+      }
     }
-    return -1;
-}
-
-int Filesys::addblock(string file, string block){
-    int blockid = getfirstblock(file);
-    if (blockid == -1)
+  }
+  else
+  {
+    int b = first;
+    while(fat[b] != 0)
     {
-
-        cout << "file does not exist" << endl;
-        return 0;
+      b = fat[b];
     }
-    int allocate = fat[0];
-    if (allocate == 0)
-    {
-        cout << "no space on disk" << endl;
-        return -1;
-    }
-
-    fat[0] = fat[fat[0]]; //allocating the block 
-    fat[allocate] = 0;    
-
-    if (blockid == 0)
-    {
-        for (int i = 0; i < rootsize; i++)
-        {
-            if (filename[i] == file)        //when there are no blocks in the file
-            {
-                firstblock[i] = allocate;
-            }
-            
-        }
-        
-    }
-    else   //these will be for the files that already exist
-    {
-        while (fat[blockid] != 0)
-        {
-            blockid = fat[blockid]; //
-        }
-        fat[blockid] = allocate;
-    }
-    putblock (allocate, block);
-    fssynch();      //updating the freelist
-    return allocate;
+    fat[b] = allocate;
+  }
+  putblock(allocate, block);
+  fssynch();
+  return allocate;
 }
 
 int Filesys::delblock(string file, int blocknumber)
-{
-    if(!checkblock(file, blocknumber))
+{ 
+  if(!checkblock(file, blocknumber))
+  {
+    return 0;
+  }
+  int b = getfirstblock(file);
+  if(blocknumber == b)
+  {
+    for(int i = 0; i < filename.size(); i++)
     {
-        cout << "Can't do it" << endl;
-        return 0;
+      if(filename[i] == file)
+      {
+        firstblock[i] = fat[blocknumber];
+        break;
+      }
     }
-
-    int block = getfirstblock(file);
-    if(block == blocknumber)
+  }
+  else
+  {
+    while(fat[b] != blocknumber)
     {
-        for(int  i = 0; i < filename.size(); i++)
-        {
-            if(filename[i] == file)
-            {
-                firstblock[i] = fat[blocknumber];
-                break;
-            }
-        }
+      b = fat[b];
     }
-    else
-    {
-        int b = block;
-        while(fat[b] != blocknumber)
-        {
-            b = fat[b];
-        }
-        fat[b] == fat[blocknumber];
-    }
-
-    fat[blocknumber] = fat[0];
-    fat[0] = blocknumber;
-    fssynch();
-
-    return 1;
+    fat[b] = fat[blocknumber];
+  }
+  // Update free list
+  fat[blocknumber] = fat[0];
+  fat[0] = blocknumber;
+  fssynch();
+return 1;
 }
 
-int Filesys::readblock(string file, int blocknumber, string& buffer)
-{
-    if (checkblock(file, blocknumber))
-    {
-        //can put: "putblock" for writeblock
-        getblock(blocknumber, buffer);
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-
+int Filesys::readblock(string file, int blocknumber, string& buffer){
+  if(checkblock(file, blocknumber))
+  {
+    getblock(blocknumber, buffer);
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
 }
 
 int Filesys::writeblock(string file, int blocknumber, string buffer)
 {
-    if(checkblock(file, blocknumber))
-    {
-        putblock(blocknumber, buffer);
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+  if(checkblock(file, blocknumber))
+  {
+    putblock(blocknumber, buffer);
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
 }
 
 int Filesys::nextblock(string file, int blocknumber)
 {
-
-    if(checkblock(file, blocknumber))
-    {
-        return fat[blocknumber];
-    }
-    else
-    {
-        return -1;
-    }
+  if(checkblock(file, blocknumber))
+  {
+    return fat[blocknumber];
+  }
+  else
+  {
+    return 0;
+  }
 }
 
-//added from newfile.cpp; i think this is where it should be placed
-bool Filesys::checkblock(string file, int block)
+bool Filesys::checkblock(string file, int blocknumber)
 {
-    //check if block number is in file
-    int blockid = getfirstblock(file);
-    if(blockid == -1)
-    {
-        return false;
-    }
-    while (blockid !=0)
-    {
-        if(blockid == block)
-        {
-            return true;
-        }
-        blockid = fat[blockid];
-    }
+  // return false if block doesnt exist
+  int b = getfirstblock(file);
+  if(b == -1)
+  {
     return false;
+  }
+
+  // return true if block exists
+  while(b != 0)
+  {
+    if(b == blocknumber)
+    {
+      return true;
+    }
+    b = fat[b];
+  }
+  return false;
 }
 
-//may not need here, may need elsewhere
+// Added ls() from shell lab
 vector<string> Filesys::ls()
-{ vector<string> flist;
-  for (int i=0; i<filename.size(); i++)
-      {
-        if (filename[i] != "XXXXX")
-           {
-             flist.push_back(filename[i]);
-           }
-      }
+{
+  vector<string> flist;
+  for(int i=0; i<filename.size(); i++)
+  {
+    if(filename[i] != "XXXXX")
+    {
+      flist.push_back(filename[i]);
+    }
+  }
   return flist;
 }
-
