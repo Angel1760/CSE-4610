@@ -15,7 +15,6 @@ int main() {
   
   Sdisk disk0 = Sdisk("disk0.txt", 256, 128); //set attributes 
   return 0;
-
 */  
 
 ///////////////////////////////////////////Project 1 Test/////////////////////////////////////////
@@ -36,48 +35,39 @@ int main() {
   */
 
 ///////////////////////////////////////////Project 2 main/////////////////////////////////////////
-
+  
 /*
-
 	//Sdisk disk1("disk1",256,128);
 	Filesys fsys("disk1",256,128);
 	fsys.newfile("file1");
 	fsys.newfile("file2");
-
 	string bfile1;
 	string bfile2;
-
 	for (int i=1; i<=1024; i++)
 	{
 		bfile1+="1";
 	}
-
 	vector<string> blocks = block(bfile1,128); 
-
 	int blocknumber=0;
-
 	for (int i=0; i< blocks.size(); i++)
 	{
 		blocknumber=fsys.addblock("file1",blocks[i]);
 	}
-
 	fsys.delblock("file1",fsys.getfirstblock("file1"));
-
 	for (int i=1; i<=2048; i++)
 	{
 		bfile2+="2";
 	}
-
 	blocks= block(bfile2,128); 
-
 	for (int i=0; i< blocks.size(); i++)
 	{
 		blocknumber=fsys.addblock("file2",blocks[i]);
 	}
-
 	fsys.delblock("file2",blocknumber);
  
-*/
+ */
+
+
 ///////////////////////////////////////////Project 3 & 4 Test/////////////////////////////////////////
 
 
@@ -85,12 +75,17 @@ int main() {
  //It inputs commands as : command op1 op2
  //You should modify it to work for your implementation.
  
- Sdisk sdisk= Sdisk("sdisk.txt",256,128);
- Filesys fsys= Filesys("sdisk.txt",256,128);
- Shell shell= Shell("sdisk.txt",256,128);
+ Sdisk sdisk= Sdisk("disk1",256,128);
+ Filesys fsys= Filesys("disk1",256,128);
+ Shell shell= Shell("disk1",256,128);
+
+
+/*
  Table table= Table("sdisk.txt",256,128, "flatfile", "indexfile");
  table.build_table("data.txt");
- 
+ */
+
+
  string s;
  string command = "go";
  string op1,op2;
@@ -121,35 +116,36 @@ int main() {
        }
        if (command=="dir")
        {
-           shell.dir();           // use the ls function
+        shell.dir();           // use the ls function
        }
        
        if (command=="add")
        {
         shell.add(op1, op2);   // The variable op1 is the new file and op2 is the file data
        }
-       
-       if (command=="del")
-       {
-        shell.del(op1);        // The variable op1 is the file
-       }
-       
-       if (command=="type")
-       {
-        shell.type(op1);       // The variable op1 is the file
-       }
-       
+
        if (command=="copy")
        {
          shell.copy(op1, op2);   // The variable op1 is the source file and the variable op2 is the destination file.
        }
-       
+       /*
        if (command=="search")
        {
-        table.search(op1);
+        //shell.search(op1);
        }
-       
+       */
+       if (command=="del")
+        {
+       // The variable op1 is the file
+       shell.del(op1);
+        }
+       if (command=="type")
+      {
+       // The variable op1 is the file
+        shell.type(op1);
       }
+       
+    }
  return 0;
 
 
@@ -159,7 +155,6 @@ to run output file, go to directory and type "make output" and it should run all
 then ./output to compile. same goes for any proj if testing each part
 if you make any changes, delete "disk1" and ./proj#
 after run, run "make clean"
-
 to check the memory, run "cat disk1"
 */
 

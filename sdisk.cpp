@@ -37,39 +37,31 @@ Sdisk::Sdisk(string diskname, int numberofblocks, int blocksize)
 	*/
 
 
-	this->diskname = diskname;
-	this->numberofblocks = numberofblocks;
-	this->blocksize = blocksize;
+	
+    this->diskname = diskname;
+    this->numberofblocks = numberofblocks;
+    this->blocksize = blocksize;
 
-	ifstream input;
-	ofstream output;
-	input.open(diskname.c_str());
-
-	if(!input.is_open())
+	fstream iofile;
+	iofile.open(diskname.c_str(), ios::in);
+	//check if file exists 
+	if(iofile.good())
 	{
-		output.open(diskname.c_str());
-		for(int i = 0; i < numberofblocks * blocksize; ++i)
-		{
-			output << "#";
-		}
-		output.close();
+		iofile.close();
+		return;
 	}
-	else{
-		char temp;
-		int filesize = 0;
-		input.get(temp);
-		while(!input.eof())
+	else 
+	{
+		iofile.close();
+		ofstream outfile;
+		outfile.open(diskname.c_str());
+		for(int i=0; i<numberofblocks*blocksize; i++)
 		{
-			++filesize;
-			input.get(temp);
+			outfile.put('#');
 		}
-		if(filesize != (numberofblocks * blocksize))
-		{
-			cout << "Error fileseize does not match" << endl;
-			input.close();
-			exit(0);
-		}
-		input.close();
+		//close file
+		outfile.close();
+		return;
 	}
 
 }
