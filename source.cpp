@@ -19,7 +19,7 @@ int main() {
 
 ///////////////////////////////////////////Project 1 Test/////////////////////////////////////////
         //working as intended
-  /*
+/*
     Sdisk disk1("test1",16,32);
   	string block1, block2, block3, block4;
   	for (int i=1; i<=32; i++) block1=block1+"1";
@@ -32,11 +32,14 @@ int main() {
 	disk1.getblock(8,block4);
 	cout << "Should be 32 2s : ";
 	cout << block4 << endl;
-  */
+*/  
 
-///////////////////////////////////////////Project 2 main/////////////////////////////////////////
-  
-/*
+///////////////////////////////////////////Project 2 Test/////////////////////////////////////////
+                          /////Working as Intended//////
+
+
+  /*
+
 	//Sdisk disk1("disk1",256,128);
 	Filesys fsys("disk1",256,128);
 	fsys.newfile("file1");
@@ -64,12 +67,11 @@ int main() {
 		blocknumber=fsys.addblock("file2",blocks[i]);
 	}
 	fsys.delblock("file2",blocknumber);
- 
- */
+*/
 
-
-///////////////////////////////////////////Project 3 & 4 Test/////////////////////////////////////////
-
+///////////////////////////////////////////Project 3 Test/////////////////////////////////////////
+                          /////Working as Intended//////
+/*
 
  //This main program inputs commands to the shell.
  //It inputs commands as : command op1 op2
@@ -79,16 +81,10 @@ int main() {
  Filesys fsys= Filesys("disk1",256,128);
  Shell shell= Shell("disk1",256,128);
 
-
-/*
- Table table= Table("sdisk.txt",256,128, "flatfile", "indexfile");
- table.build_table("data.txt");
- */
-
-
  string s;
  string command = "go";
  string op1,op2;
+
  while (command != "quit")
      {
        command.clear();
@@ -128,12 +124,88 @@ int main() {
        {
          shell.copy(op1, op2);   // The variable op1 is the source file and the variable op2 is the destination file.
        }
-       /*
+       
+       //doesnt need the search function that is required for part 4; very similar to part 3
+       
+       if (command=="del")
+        {
+       // The variable op1 is the file
+       shell.del(op1);
+        }
+       if (command=="type")
+      {
+       // The variable op1 is the file
+        shell.type(op1);
+      }
+       
+    }
+ return 0;
+*/
+
+///////////////////////////////////////////Project 4 Test/////////////////////////////////////////
+
+
+
+ //This main program inputs commands to the shell.
+ //It inputs commands as : command op1 op2
+ //You should modify it to work for your implementation.
+ 
+ Sdisk sdisk= Sdisk("disk1",256,128);
+ Filesys fsys= Filesys("disk1",256,128);
+ Shell shell= Shell("disk1",256,128);
+
+ Table table= Table("disk1",256,128, "flatfile", "indexfile");
+ table.build_table("data.txt");
+
+ string s;
+ string command = "go";
+ string op1,op2;
+
+ while (command != "quit")
+     {
+       command.clear();
+       op1.clear();
+       op2.clear();
+       cout << "$";
+       getline(cin,s);
+      
+       int firstblank=s.find(' ');
+
+       if (firstblank < s.length())
+       {
+          s[firstblank]='#';
+       }
+       int secondblank=s.find(' ');
+       command=s.substr(0,firstblank);
+      
+       if (firstblank < s.length())
+       {
+         op1=s.substr(firstblank+1,secondblank-firstblank-1);
+       }
+       if (secondblank < s.length())
+       {
+         op2=s.substr(secondblank+1);
+       }
+       if (command=="dir")
+       {
+        shell.dir();           // use the ls function
+       }
+       
+       if (command=="add")
+       {
+        shell.add(op1, op2);   // The variable op1 is the new file and op2 is the file data
+       }
+
+       if (command=="copy")
+       {
+         shell.copy(op1, op2);   // The variable op1 is the source file and the variable op2 is the destination file.
+       }
+       
        if (command=="search")
        {
-        //shell.search(op1);
+        table.search(op1);
        }
-       */
+       
        if (command=="del")
         {
        // The variable op1 is the file
@@ -150,6 +222,18 @@ int main() {
 
 
 
+
+} //end of main bracket
+
+
+
+
+
+///////////////////////////////////////Notes about Project////////////////////////////////////////////////////////
+
+
+
+
 /* for the output make file
 to run output file, go to directory and type "make output" and it should run all the files.
 then ./output to compile. same goes for any proj if testing each part
@@ -158,5 +242,3 @@ after run, run "make clean"
 to check the memory, run "cat disk1"
 */
 
-
-}

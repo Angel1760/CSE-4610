@@ -1,5 +1,13 @@
 -1720*     *event   *Egypt          *EX     *Hebrews go down to Egypt *
--1750*     *event   *Thera          *CLAS 42*Earthquake at 0 0 0 0 0 0 0 0 0 0 0  0  0  0  0 ###########################################################################################0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ############################################################################################################################################################################0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 n colony) *
+-1750*     *event   *Thera          *CLAS 42*Earthquake at Thera(ends Minoan peace) *
+-1290*     *event   *Egypt          *BA     *Hebrew Exodus: Egypt under Ramses II *
+-1250*     *event   *Israel         *EX     *Hebrews enter Promised Land *
+-1184*     *event   *Troy           *CLAS 42*Fall of Troy (Mycenae: King Agamemnon) *
+-1175*     *event   *Israel         *EX     *Philistines settle in Canaan *
+-922 *     *event   *Israel         *ENGL 62*Israel/Judah split (10 + 2) *
+-950 *     *event   *E Hemisphere   *BA     *Arabs sail to China (take Typhus god) *
+-776 *     *event   *Greece         *CLAS 42*1st Olympics *
+-753 *     *event   *Rome           *CLAS 42*Rome founded (an Etruscan colony) *
 -750 *     *work    *Greece         *CLAS 42*Iliad, Odessey, Homer *
 -725 *     *work    *Greece         *CLAS 42*Theogony, Hesiod (730-720) *
 -701 *     *event   *Israel         *CLAS 42*Assyrians take 10 tribes of Israel *

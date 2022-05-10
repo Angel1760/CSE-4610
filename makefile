@@ -30,4 +30,5 @@ table.o: table.cpp table.h
 
 clean:
 	rm *.o 
+	rm disk1
 

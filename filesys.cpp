@@ -200,7 +200,7 @@ int Filesys::getfirstblock(string file)
   {
     if(filename[i] == file)
     {
-      cout << "returning first block." << endl;
+      //cout << "returning first block." << endl;
       return firstblock[i];
     }
   }
