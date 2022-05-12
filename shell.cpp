@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Shell::Shell(string filename, int blocksize, int numberofblocks):Filesys(filename, numberofblocks, blocksize)
+Shell::Shell(string filename, int numberofblocks, int blocksize):Filesys(filename, numberofblocks, blocksize)
 {
     cout << "Shell was created!" << endl;
 }
@@ -27,7 +27,7 @@ int Shell::add(string file,string buffer)
     int code = getfirstblock(file);
     if (code >= 0)
     {
-        cout << "file exists";
+        cout << "file exists" << endl;
         return 0;
     }
     code = newfile(file);

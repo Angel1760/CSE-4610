@@ -11,7 +11,7 @@ class Shell: public Filesys
 {
 public:
 
-Shell(string filename, int blocksize, int numberofblocks);
+Shell(string filename, int numberofblocks, int blocksize);
 int dir();// lists all files
 int add(string file, string buffer);// add a new file using buffer as data
 int del(string file);// deletes the file

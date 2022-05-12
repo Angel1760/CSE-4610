@@ -63,10 +63,8 @@ int Table::indexSearch(string value)
     {
         if(k == value)
         {
-            //return b;
+    
             return f;
-            //return 0;
-            //return -1; 
         }
 
         instream >> k >> f; 

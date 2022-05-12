@@ -15,7 +15,7 @@ using namespace std;
 Filesys::Filesys(string diskname, int numberofblocks, int blocksize) : Sdisk(diskname, numberofblocks, blocksize)
 {
   string buffer;
-  int code = getblock(0, buffer);
+  int code = getblock(1, buffer);
   if(code == 0)
   {
     cout << "Error occurs :,(" << endl;
